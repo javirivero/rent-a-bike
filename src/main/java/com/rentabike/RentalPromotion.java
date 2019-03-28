@@ -11,9 +11,9 @@ public enum RentalPromotion {
     FAMILY_DISCOUNT_PROMO("Family Discount", 30);
 
     private String name;
-    private int value;
+    private double value;
 
-    RentalPromotion(String name, int value) {
+    RentalPromotion(String name, double value) {
         this.name = name;
         this.value = value;
     }
@@ -22,7 +22,7 @@ public enum RentalPromotion {
         return name;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 

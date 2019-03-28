@@ -23,7 +23,8 @@ public class BikeRentalServiceImpl implements BikeRentalService {
         if (bikeRental == null || CollectionUtils.isEmpty(bikeRental.getBikeRentalItems())) {
             logger.error("No rental items to process...");
         }
-        if (RentalPromotion.FAMILY_DISCOUNT_PROMO.getName().equals(bikeRental.getRentalPromotion().getName())) {
+        if (bikeRental.getRentalPromotion() != null &&
+                RentalPromotion.FAMILY_DISCOUNT_PROMO.getName().equals(bikeRental.getRentalPromotion().getName())) {
             if (bikeRental.getBikeRentalItems().size() < RentalPromotion.FAMILY_MIN_PROMO.getValue()
                 || bikeRental.getBikeRentalItems().size() > RentalPromotion.FAMILY_MAX_PROMO.getValue()) {
                 logger.error("Rent not fit for discount");
@@ -35,14 +36,14 @@ public class BikeRentalServiceImpl implements BikeRentalService {
         for (BikeRentalItem bikeRentalItem : bikeRental.getBikeRentalItems()) {
             double amount = 0;
             switch (bikeRentalItem.getRentalType()) {
-                case DAY_RENTAL:
-                    amount = RentalType.HOUR_RENTAL.getPrice() + bikeRentalItem.getQuantity();
-                    break;
                 case HOUR_RENTAL:
-                    amount = RentalType.DAY_RENTAL.getPrice() + bikeRentalItem.getQuantity();
+                    amount = RentalType.HOUR_RENTAL.getPrice() * bikeRentalItem.getQuantity();
+                    break;
+                case DAY_RENTAL:
+                    amount = RentalType.DAY_RENTAL.getPrice() * bikeRentalItem.getQuantity();
                     break;
                 case WEEK_RENTAL:
-                    amount = RentalType.WEEK_RENTAL.getPrice() + bikeRentalItem.getQuantity();
+                    amount = RentalType.WEEK_RENTAL.getPrice() * bikeRentalItem.getQuantity();
                     break;
                 default:
                     logger.error("Incorrect rental type...");
@@ -51,7 +52,8 @@ public class BikeRentalServiceImpl implements BikeRentalService {
             total += amount;
         }
         if (discount > 0 ) {
-            total = total - (total * discount / 100);
+            double discountMade = (total * discount / 100);
+            total = total - discountMade;
         }
         bikeRental.setTotal(total);
 
