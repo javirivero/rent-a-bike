@@ -5,14 +5,14 @@ import com.rentabike.RentalPromotion;
 import java.util.List;
 
 /**
- * BikeRentalRate
+ * BikeRental
  * @author javierrivero
  *
  */
-public class BikeRentalRate {
+public class BikeRental {
     private List<BikeRentalItem> bikeRentalItems;
     private RentalPromotion rentalPromotion;
-    private double price;
+    private double total;
 
     public List<BikeRentalItem> getBikeRentalItems() {
         return bikeRentalItems;
@@ -30,11 +30,11 @@ public class BikeRentalRate {
         this.rentalPromotion = rentalPromotion;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotal() {
+        return total;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setTotal(double total) {
+        this.total = total;
     }
 }
